@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>404 — Lost in Space</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #ffffff;
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(88, 80, 236, 0.45),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom left,
+                    rgba(0, 209, 178, 0.28),
+                    transparent 40%
+                ),
+                #080b18;
+        }
+
+        .stars,
+        .stars::before,
+        .stars::after {
+            position: absolute;
+            inset: 0;
+            content: "";
+            background-image:
+                radial-gradient(
+                    circle,
+                    rgba(255, 255, 255, 0.9) 1px,
+                    transparent 1px
+                );
+            background-size: 75px 75px;
+        }
+
+        .stars {
+            opacity: 0.35;
+        }
+
+        .stars::before {
+            background-size: 115px 115px;
+            transform: translate(30px, 20px);
+            opacity: 0.7;
+        }
+
+        .stars::after {
+            background-size: 170px 170px;
+            transform: translate(70px, 45px);
+            opacity: 0.6;
+        }
+
+        .page {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+            padding: 60px;
+        }
+
+        .content {
+            max-width: 590px;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-bottom: 25px;
+            padding: 9px 15px;
+            color: #78f7de;
+            border: 1px solid rgba(120, 247, 222, 0.4);
+            border-radius: 999px;
+            background: rgba(120, 247, 222, 0.08);
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: clamp(90px, 16vw, 190px);
+            line-height: 0.8;
+            letter-spacing: -10px;
+            background: linear-gradient(
+                135deg,
+                #ffffff,
+                #9fa7ff,
+                #78f7de
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 70px rgba(116, 109, 255, 0.22);
+        }
+
+        h2 {
+            margin-top: 32px;
+            font-size: clamp(28px, 4vw, 48px);
+            line-height: 1.1;
+        }
+
+        .message {
+            margin-top: 18px;
+            color: #aeb7d0;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .required-text {
+            margin-top: 17px;
+            color: #78f7de;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 32px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 22px;
+            border-radius: 12px;
+            color: #080b18;
+            background: #78f7de;
+            font-weight: bold;
+            text-decoration: none;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(120, 247, 222, 0.25);
+        }
+
+        .button.secondary {
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .illustration {
+            position: relative;
+            height: 520px;
+        }
+
+        .planet {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 290px;
+            height: 290px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background:
+                radial-gradient(
+                    circle at 32% 27%,
+                    #ffffff 0 3%,
+                    transparent 4%
+                ),
+                radial-gradient(
+                    circle at 60% 38%,
+                    rgba(255, 255, 255, 0.25) 0 5%,
+                    transparent 6%
+                ),
+                radial-gradient(
+                    circle at 41% 68%,
+                    rgba(0, 0, 0, 0.2) 0 8%,
+                    transparent 9%
+                ),
+                linear-gradient(
+                    145deg,
+                    #7a73ff,
+                    #4844c7 55%,
+                    #25236d
+                );
+            box-shadow:
+                inset -35px -35px 55px rgba(0, 0, 0, 0.3),
+                0 0 90px rgba(105, 96, 255, 0.45);
+        }
+
+        .planet::before {
+            position: absolute;
+            top: 53%;
+            left: -70px;
+            width: 430px;
+            height: 80px;
+            content: "";
+            transform: rotate(-16deg);
+            border: 17px solid rgba(120, 247, 222, 0.82);
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-radius: 50%;
+            box-shadow: 0 0 35px rgba(120, 247, 222, 0.35);
+        }
+
+        .moon {
+            position: absolute;
+            top: 75px;
+            right: 55px;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffffff, #9ca6cb);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .astronaut {
+            position: absolute;
+            bottom: 45px;
+            left: 60px;
+            width: 105px;
+            height: 155px;
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        .helmet {
+            position: absolute;
+            top: 0;
+            left: 14px;
+            width: 78px;
+            height: 72px;
+            border: 9px solid #ffffff;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #273063, #10152f);
+            box-shadow: inset 10px 10px 15px rgba(255, 255, 255, 0.08);
+        }
+
+        .body {
+            position: absolute;
+            top: 62px;
+            left: 24px;
+            width: 58px;
+            height: 70px;
+            border-radius: 20px;
+            background: #ffffff;
+        }
+
+        .body::before {
+            position: absolute;
+            top: 18px;
+            left: 13px;
+            width: 32px;
+            height: 18px;
+            content: "";
+            border-radius: 5px;
+            background: #4853a4;
+        }
+
+        .arm,
+        .leg {
+            position: absolute;
+            width: 22px;
+            border-radius: 20px;
+            background: #ffffff;
+        }
+
+        .arm {
+            top: 73px;
+            height: 63px;
+        }
+
+        .arm.left {
+            left: 4px;
+            transform: rotate(20deg);
+        }
+
+        .arm.right {
+            right: 2px;
+            transform: rotate(-30deg);
+        }
+
+        .leg {
+            top: 123px;
+            height: 52px;
+        }
+
+        .leg.left {
+            left: 29px;
+            transform: rotate(10deg);
+        }
+
+        .leg.right {
+            right: 27px;
+            transform: rotate(-12deg);
+        }
+
+        .orbit {
+            position: absolute;
+            inset: 25px;
+            border: 1px dashed rgba(255, 255, 255, 0.17);
+            border-radius: 50%;
+            animation: spin 24s linear infinite;
+        }
+
+        .orbit::before {
+            position: absolute;
+            top: 48%;
+            left: -8px;
+            width: 16px;
+            height: 16px;
+            content: "";
+            border-radius: 50%;
+            background: #ffcc70;
+            box-shadow: 0 0 20px #ffcc70;
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-18px) rotate(4deg);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 850px) {
+            body {
+                overflow: auto;
+            }
+
+            .page {
+                grid-template-columns: 1fr;
+                padding: 45px 25px;
+                text-align: center;
+            }
+
+            .content {
+                margin: auto;
+            }
+
+            .actions {
+                justify-content: center;
+            }
+
+            .illustration {
+                height: 430px;
+            }
+
+            .planet {
+                width: 230px;
+                height: 230px;
+            }
+
+            .planet::before {
+                left: -55px;
+                width: 340px;
+                height: 67px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stars"></div>
+
+    <main class="page">
+        <section class="content">
+            <span class="badge">Navigation error</span>
+
+            <h1>404</h1>
+
+            <h2>You have drifted beyond the known web.</h2>
+
+            <p class="message">
+                The page you were looking for may have moved,
+                disappeared, or never existed in this universe.
+            </p>
+
+            <p class="required-text">
+                Ceci n'est pas une page
+            </p>
+
+            <div class="actions">
+                <a class="button" href="/">Return home</a>
+
+                <a
+                    class="button secondary"
+                    href="javascript:history.back()"
+                >
+                    Go back
+                </a>
+            </div>
+        </section>
+
+        <section
+            class="illustration"
+            aria-label="Astronaut floating near a planet"
+        >
+            <div class="orbit"></div>
+            <div class="planet"></div>
+            <div class="moon"></div>
+
+            <div class="astronaut">
+                <div class="helmet"></div>
+                <div class="body"></div>
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+                <div class="leg left"></div>
+                <div class="leg right"></div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
