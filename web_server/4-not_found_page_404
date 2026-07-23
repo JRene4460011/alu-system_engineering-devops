@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# Installs Nginx and configures a custom 404 page.
+# Installs Nginx and configures a redirect and custom 404 page.
 
 apt-get update
 apt-get install -y nginx
 
-echo "Ceci n'est pas une page" | tee /var/www/html/404.html
+mkdir -p /var/www/html
+printf "%s\n" "Ceci n'est pas une page" > /var/www/html/404.html
 
 cat > /etc/nginx/sites-available/default <<'EOF'
 server {
@@ -31,6 +32,8 @@ server {
     }
 }
 EOF
+
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 nginx -t
 service nginx restart
