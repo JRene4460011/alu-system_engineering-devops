@@ -2,10 +2,10 @@
 # Installs Nginx and configures a redirect and custom 404 page.
 
 apt-get update
-apt-get install -y nginx
+DEBIAN_FRONTEND=noninteractive apt-get install -y nginx
 
 mkdir -p /var/www/html
-printf "%s\n" "Ceci n'est pas une page" > /var/www/html/404.html
+printf '%s\n' "Ceci n'est pas une page" > /var/www/html/404.html
 
 cat > /etc/nginx/sites-available/default <<'EOF'
 server {
@@ -36,4 +36,9 @@ EOF
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 nginx -t
-service nginx restart
+
+if pgrep nginx > /dev/null; then
+    nginx -s reload
+else
+    nginx
+fi
