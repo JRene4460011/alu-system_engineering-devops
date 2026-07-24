@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Installs Nginx and adds an X-Served-By response header containing the server hostname.
+
+apt-get update
+apt-get install -y nginx
+
+printf '%s\n' 'add_header X-Served-By $hostname;' \
+    > /etc/nginx/conf.d/custom_http_response_header.conf
+
+nginx -t
+service nginx restart
